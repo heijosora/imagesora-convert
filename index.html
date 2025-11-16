@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sigma-Sora Convert - Core Converter</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css"/>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { inter: ['Inter', 'sans-serif'] },
+          animation: { 'spin-slow': 'spin 0.5s ease-in-out' }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-inter transition-colors duration-300">
+  <header class="border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/50 backdrop-blur-sm sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <a href="index.html" class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+          </a>
+          <h1 class="text-2xl font-semibold">Sigma-Sora Convert</h1>
+        </div>
+
+        <nav class="hidden sm:flex items-center gap-4 text-sm">
+          <a href="index.html" class="px-3 py-1.5 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300">Core Converter</a>
+          <a href="batch.html" class="px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Batch Processor</a>
+          <a href="tools.html" class="px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Quick Tools</a>
+        </nav>
+
+        <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200">
+          <svg id="sun-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+            </path>
+          </svg>
+          <svg id="moon-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+            </path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 max-h-[calc(100vh-8rem)] overflow-hidden">
+      <div class="lg:col-span-1 space-y-4">
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+          <h2 class="text-lg font-semibold mb-4 flex items-center">
+            <svg class="w-5 h-5 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+            </svg>
+            Upload Image
+          </h2>
+
+          <div id="drop-zone" class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center transition-all duration-300 hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/10">
+            <svg class="w-12 h-12 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+            </svg>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Drag & drop your image here</p>
+            <p class="text-xs text-gray-500 dark:text-gray-500 mb-4">or</p>
+            <input type="file" id="file-input" accept="image/*" class="hidden"/>
+            <button id="browse-btn" class="px-4 py-2 bg-blue-500 text-white rounded-full font-medium hover:bg-blue-600 hover:shadow-lg active:scale-95 transition-all">
+              Browse Files
+            </button>
+          </div>
+
+          <div id="file-info" class="mt-4 p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg hidden">
+            <div class="text-sm space-y-1">
+              <div class="flex justify-between">
+                <span class="text-gray-500">Name:</span>
+                <span id="file-name" class="font-medium truncate max-w-[200px]"></span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">Resolution:</span>
+                <span id="file-resolution" class="font-medium"></span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">Size:</span>
+                <span id="file-size" class="font-medium"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+          <h3 class="text-lg font-semibold mb-4">Preview</h3>
+          <div id="preview-container" class="bg-gray-100 dark:bg-gray-900 rounded-lg p-4 min-h-[200px] flex items-center justify-center">
+            <canvas id="preview-canvas" class="max-w-full max-h-[300px] hidden"></canvas>
+            <p id="no-preview" class="text-gray-500 text-sm">No image uploaded</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-1 space-y-4 overflow-y-auto">
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+          <h2 class="text-lg font-semibold mb-4 flex items-center">
+            <svg class="w-5 h-5 mr-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+            </svg>
+            Size Calculator
+          </h2>
+
+          <div class="space-y-4">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <label class="text-sm font-medium">Dimensions (px)</label>
+                <button id="aspect-lock" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                  <svg id="lock-icon" class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                  </svg>
+                  <svg id="unlock-icon" class="w-5 h-5 text-gray-400 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>
+                  </svg>
+                </button>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="text-xs text-gray-500 dark:text-gray-400">Width</label>
+                  <input type="number" id="width-px" class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"/>
+                </div>
+                <div>
+                  <label class="text-xs text-gray-500 dark:text-gray-400">Height</label>
+                  <input type="number" id="height-px" class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"/>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label class="text-sm font-medium">DPI</label>
+              <input type="number" id="dpi" value="300" min="72" max="600" class="w-full mt-1 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"/>
+            </div>
+
+            <div class="space-y-3">
+              <label class="text-sm font-medium">Dimensions (cm)</label>
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="text-xs text-gray-500 dark:text-gray-400">Width</label>
+                  <input type="text" id="width-cm" readonly class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900/50 cursor-not-allowed"/>
+                </div>
+                <div>
+                  <label class="text-xs text-gray-500 dark:text-gray-400">Height</label>
+                  <input type="text" id="height-cm" readonly class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900/50 cursor-not-allowed"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+          <h2 class="text-lg font-semibold mb-4 flex items-center">
+            <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+            </svg>
+            Filters & CC
+          </h2>
+
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between mb-1">
+                <label class="text-sm">Brightness</label>
+                <span id="brightness-value" class="text-sm text-gray-500">100%</span>
+              </div>
+              <input type="range" id="brightness" min="0" max="200" value="100" class="w-full slider"/>
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-1">
+                <label class="text-sm">Contrast</label>
+                <span id="contrast-value" class="text-sm text-gray-500">100%</span>
+              </div>
+              <input type="range" id="contrast" min="0" max="200" value="100" class="w-full slider"/>
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-1">
+                <label class="text-sm">Saturation</label>
+                <span id="saturate-value" class="text-sm text-gray-500">100%</span>
+              </div>
+              <input type="range" id="saturate" min="0" max="200" value="100" class="w-full slider"/>
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-1">
+                <label class="text-sm">Grayscale</label>
+                <span id="grayscale-value" class="text-sm text-gray-500">0%</span>
+              </div>
+              <input type="range" id="grayscale" min="0" max="100" value="0" class="w-full slider"/>
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-1">
+                <label class="text-sm">Sepia</label>
+                <span id="sepia-value" class="text-sm text-gray-500">0%</span>
+              </div>
+              <input type="range" id="sepia" min="0" max="100" value="0" class="w-full slider"/>
+            </div>
+
+            <button id="reset-filters" class="w-full px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition-all">
+              Reset Filters
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-1 space-y-4">
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+          <h2 class="text-lg font-semibold mb-4 flex items-center">
+            <svg class="w-5 h-5 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+            Conversion Settings
+          </h2>
+
+          <div class="space-y-4">
+            <div>
+              <label class="text-sm font-medium">Output Format</label>
+              <select id="output-format" class="w-full mt-1 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 focus:ring-2 focus:ring-blue-500">
+                <option value="jpeg">JPEG</option>
+                <option value="png">PNG</option>
+                <option value="webp">WebP</option>
+              </select>
+            </div>
+
+            <div class="space-y-3">
+              <label class="text-sm font-medium">Compression Method</label>
+
+              <div class="space-y-2">
+                <div class="flex items-center">
+                  <input type="radio" id="quality-option" name="compression" value="quality" checked class="mr-2"/>
+                  <label for="quality-option" class="text-sm">Quality</label>
+                </div>
+                <div id="quality-controls" class="pl-6">
+                  <div class="flex justify-between mb-1">
+                    <span class="text-xs text-gray-500">Quality</span>
+                    <span id="quality-value" class="text-xs text-gray-500">90%</span>
+                  </div>
+                  <input type="range" id="quality" min="1" max="100" value="90" class="w-full slider"/>
+                </div>
+              </div>
+
+              <div class="space-y-2">
+                <div class="flex items-center">
+                  <input type="radio" id="size-option" name="compression" value="size" class="mr-2"/>
+                  <label for="size-option" class="text-sm">Target Size</label>
+                </div>
+                <div id="size-controls" class="pl-6 opacity-50 pointer-events-none">
+                  <div class="flex items-center space-x-2">
+                    <input type="number" id="target-size" min="0.1" step="0.1" value="2" class="flex-1 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"/>
+                    <span class="text-sm">MB</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-center">
+                <input type="checkbox" id="lossless" class="mr-2"/>
+                <label for="lossless" class="text-sm">Lossless (PNG only)</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+          <h2 class="text-lg font-semibold mb-4 flex items-center">
+            <svg class="w-5 h-5 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            Output
+          </h2>
+
+          <div class="space-y-4">
+            <button id="convert-btn" disabled class="w-full px-6 py-3 bg-blue-500 text-white rounded-full font-medium hover:bg-blue-600 hover:shadow-lg active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+              Convert Image
+            </button>
+
+            <div id="result-info" class="hidden p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+              <div class="text-sm space-y-1">
+                <div class="flex justify-between">
+                  <span class="text-gray-500">Final Size:</span>
+                  <span id="final-size" class="font-medium"></span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-500">Format:</span>
+                  <span id="final-format" class="font-medium uppercase"></span>
+                </div>
+              </div>
+            </div>
+
+            <button id="download-btn" disabled class="w-full px-6 py-3 bg-green-500 text-white rounded-full font-medium hover:bg-green-600 hover:shadow-lg active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+              Download
+            </button>
+          </div>
+        </div>
+
+        <div id="status-container" class="hidden">
+          <div id="status-message" class="p-4 rounded-lg text-sm"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/utils/helpers.js"></script>
+  <script src="js/modules/theme.js"></script>
+  <script src="js/modules/upload.js"></script>
+  <script src="js/modules/sizeCalculator.js"></script>
+  <script src="js/modules/filters.js"></script>
+  <script src="js/modules/converter.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
