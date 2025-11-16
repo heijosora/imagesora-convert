@@ -3,7 +3,7 @@
  */
 
 // Global instances
-let themeManager, uploadManager, sizeCalculator, filtersManager, converterManager;
+let themeManager, modeManager, uploadManager, sizeCalculator, trimManager, filtersManager, converterManager;
 
 // Initialize application when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
@@ -14,14 +14,18 @@ function initializeApp() {
     try {
         // Initialize all modules
         themeManager = new ThemeManager();
+        modeManager = new ModeManager();
         uploadManager = new UploadManager();
         sizeCalculator = new SizeCalculator();
+        trimManager = new TrimManager();
         filtersManager = new FiltersManager();
         converterManager = new ConverterManager();
         
         // Make managers globally accessible for inter-module communication
+        window.modeManager = modeManager;
         window.uploadManager = uploadManager;
         window.sizeCalculator = sizeCalculator;
+        window.trimManager = trimManager;
         window.filtersManager = filtersManager;
         window.converterManager = converterManager;
         

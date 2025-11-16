@@ -24,7 +24,7 @@
     }
   </script>
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-inter transition-colors duration-300">
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-inter transition-colors duration-300 mode-advanced">
   <header class="border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/50 backdrop-blur-sm sticky top-0 z-50">
     <div class="container mx-auto px-4 py-4">
       <div class="flex items-center justify-between">
@@ -60,6 +60,20 @@
   </header>
 
   <main class="container mx-auto px-4 py-6">
+    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 mb-6 shadow-sm">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div>
+          <p class="text-xs uppercase tracking-widest text-blue-500 font-semibold">Modes for every creator</p>
+          <h2 class="text-xl font-semibold">Choose your workflow</h2>
+        </div>
+        <div id="mode-toggle" class="mode-toggle" role="group" aria-label="Mode toggle">
+          <button type="button" class="mode-toggle-btn" data-mode-toggle="quick" aria-pressed="false">Quick Mode</button>
+          <button type="button" class="mode-toggle-btn active" data-mode-toggle="advanced" aria-pressed="true">Advanced Mode</button>
+        </div>
+      </div>
+      <p id="mode-description" class="mt-3 text-sm text-gray-500 dark:text-gray-400">Advanced mode unlocks presets, trim tools, and batch-ready settings. Switch to quick mode for format, size, and a single curated filter.</p>
+    </div>
+
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 max-h-[calc(100vh-8rem)] overflow-hidden">
       <div class="lg:col-span-1 space-y-4">
         <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
@@ -167,6 +181,22 @@
                 </div>
               </div>
             </div>
+
+            <div class="advanced-only pt-4 border-t border-gray-100 dark:border-gray-700">
+              <div class="flex items-center justify-between mb-3">
+                <label class="text-sm font-medium">Trim Presets</label>
+                <span class="text-xs text-gray-500 dark:text-gray-400">Popular IG ratios</span>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <button type="button" class="trim-btn active" data-trim="original">Original</button>
+                <button type="button" class="trim-btn" data-trim="square">1:1 Square</button>
+                <button type="button" class="trim-btn" data-trim="fourFive">4:5 Portrait</button>
+                <button type="button" class="trim-btn" data-trim="sixteenNine">16:9 Landscape</button>
+                <button type="button" class="trim-btn" data-trim="stories">9:16 Story</button>
+                <button type="button" class="trim-btn" data-trim="cinema">21:9 Cinema</button>
+              </div>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Trimming crops from center and locks dimensions to the selected aspect.</p>
+            </div>
           </div>
         </div>
 
@@ -180,44 +210,76 @@
           </h2>
 
           <div class="space-y-4">
-            <div>
-              <div class="flex justify-between mb-1">
-                <label class="text-sm">Brightness</label>
-                <span id="brightness-value" class="text-sm text-gray-500">100%</span>
-              </div>
-              <input type="range" id="brightness" min="0" max="200" value="100" class="w-full slider"/>
+            <div class="quick-only space-y-2">
+              <label class="text-sm font-medium">Quick Filter</label>
+              <select id="quick-filter" class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 focus:ring-2 focus:ring-blue-500">
+                <option value="original">Original</option>
+                <option value="vivid">Vivid Pop</option>
+                <option value="sunset">Sunset Glow</option>
+                <option value="retro">Retro Film</option>
+                <option value="mono">Noir Mono</option>
+                <option value="soft">Soft Skin</option>
+              </select>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Switch to Advanced mode to fine-tune every slider.</p>
             </div>
 
-            <div>
-              <div class="flex justify-between mb-1">
-                <label class="text-sm">Contrast</label>
-                <span id="contrast-value" class="text-sm text-gray-500">100%</span>
+            <div class="advanced-only space-y-4">
+              <div>
+                <div class="flex items-center justify-between">
+                  <label class="text-sm font-medium">Instagram-pick Presets</label>
+                  <span class="text-xs text-gray-500 dark:text-gray-400">Tap to apply curated looks</span>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-3">
+                  <button type="button" class="preset-btn active" data-preset="original">Original</button>
+                  <button type="button" class="preset-btn" data-preset="vivid">Vivid Pop</button>
+                  <button type="button" class="preset-btn" data-preset="sunset">Sunset Glow</button>
+                  <button type="button" class="preset-btn" data-preset="retro">Retro Film</button>
+                  <button type="button" class="preset-btn" data-preset="mono">Noir Mono</button>
+                  <button type="button" class="preset-btn" data-preset="soft">Soft Skin</button>
+                </div>
               </div>
-              <input type="range" id="contrast" min="0" max="200" value="100" class="w-full slider"/>
-            </div>
 
-            <div>
-              <div class="flex justify-between mb-1">
-                <label class="text-sm">Saturation</label>
-                <span id="saturate-value" class="text-sm text-gray-500">100%</span>
-              </div>
-              <input type="range" id="saturate" min="0" max="200" value="100" class="w-full slider"/>
-            </div>
+              <div class="space-y-4" id="advanced-filter-group">
+                <div>
+                  <div class="flex justify-between mb-1">
+                    <label class="text-sm">Brightness</label>
+                    <span id="brightness-value" class="text-sm text-gray-500">100%</span>
+                  </div>
+                  <input type="range" id="brightness" min="0" max="200" value="100" class="w-full slider"/>
+                </div>
 
-            <div>
-              <div class="flex justify-between mb-1">
-                <label class="text-sm">Grayscale</label>
-                <span id="grayscale-value" class="text-sm text-gray-500">0%</span>
-              </div>
-              <input type="range" id="grayscale" min="0" max="100" value="0" class="w-full slider"/>
-            </div>
+                <div>
+                  <div class="flex justify-between mb-1">
+                    <label class="text-sm">Contrast</label>
+                    <span id="contrast-value" class="text-sm text-gray-500">100%</span>
+                  </div>
+                  <input type="range" id="contrast" min="0" max="200" value="100" class="w-full slider"/>
+                </div>
 
-            <div>
-              <div class="flex justify-between mb-1">
-                <label class="text-sm">Sepia</label>
-                <span id="sepia-value" class="text-sm text-gray-500">0%</span>
+                <div>
+                  <div class="flex justify-between mb-1">
+                    <label class="text-sm">Saturation</label>
+                    <span id="saturate-value" class="text-sm text-gray-500">100%</span>
+                  </div>
+                  <input type="range" id="saturate" min="0" max="200" value="100" class="w-full slider"/>
+                </div>
+
+                <div>
+                  <div class="flex justify-between mb-1">
+                    <label class="text-sm">Grayscale</label>
+                    <span id="grayscale-value" class="text-sm text-gray-500">0%</span>
+                  </div>
+                  <input type="range" id="grayscale" min="0" max="100" value="0" class="w-full slider"/>
+                </div>
+
+                <div>
+                  <div class="flex justify-between mb-1">
+                    <label class="text-sm">Sepia</label>
+                    <span id="sepia-value" class="text-sm text-gray-500">0%</span>
+                  </div>
+                  <input type="range" id="sepia" min="0" max="100" value="0" class="w-full slider"/>
+                </div>
               </div>
-              <input type="range" id="sepia" min="0" max="100" value="0" class="w-full slider"/>
             </div>
 
             <button id="reset-filters" class="w-full px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition-all">
@@ -266,7 +328,7 @@
                 </div>
               </div>
 
-              <div class="space-y-2">
+              <div class="space-y-2 advanced-only">
                 <div class="flex items-center">
                   <input type="radio" id="size-option" name="compression" value="size" class="mr-2"/>
                   <label for="size-option" class="text-sm">Target Size</label>
@@ -279,7 +341,7 @@
                 </div>
               </div>
 
-              <div class="flex items-center">
+              <div class="flex items-center advanced-only">
                 <input type="checkbox" id="lossless" class="mr-2"/>
                 <label for="lossless" class="text-sm">Lossless (PNG only)</label>
               </div>
@@ -329,8 +391,10 @@
 
   <script src="js/utils/helpers.js"></script>
   <script src="js/modules/theme.js"></script>
+  <script src="js/modules/mode.js"></script>
   <script src="js/modules/upload.js"></script>
   <script src="js/modules/sizeCalculator.js"></script>
+  <script src="js/modules/trim.js"></script>
   <script src="js/modules/filters.js"></script>
   <script src="js/modules/converter.js"></script>
   <script src="js/main.js"></script>

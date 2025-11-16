@@ -52,6 +52,15 @@ class ConverterManager {
             }
         });
         
+        // Sync with mode changes
+        document.addEventListener('modeChanged', (event) => {
+            if (event.detail.mode === 'quick') {
+                this.qualityOption.checked = true;
+                this.toggleCompressionMethod('quality');
+                this.losslessCheckbox.checked = false;
+            }
+        });
+
         // Convert button
         this.convertBtn.addEventListener('click', () => this.convertImage());
         
@@ -82,6 +91,7 @@ class ConverterManager {
             const uploadManager = window.uploadManager;
             const sizeCalculator = window.sizeCalculator;
             const filtersManager = window.filtersManager;
+            const trimManager = window.trimManager;
             
             if (!uploadManager || !uploadManager.getOriginalImage()) {
                 throw new Error('No image loaded');
@@ -90,13 +100,15 @@ class ConverterManager {
             const originalImage = uploadManager.getOriginalImage();
             const dimensions = sizeCalculator.getCurrentDimensions();
             const filters = filtersManager.getFilterValues();
+            const cropRect = trimManager ? trimManager.getCropRect() : null;
             
             // Create canvas with current settings
             const canvas = createCanvasFromImage(
                 originalImage,
                 dimensions.width,
                 dimensions.height,
-                filters
+                filters,
+                cropRect
             );
             
             // Get output format

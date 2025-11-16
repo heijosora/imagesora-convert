@@ -112,4 +112,30 @@ class SizeCalculator {
             height: parseInt(this.heightPx.value) || this.originalDimensions.height
         };
     }
+
+    resetToOriginalDimensions() {
+        if (!this.originalDimensions.width || !this.originalDimensions.height) {
+            return;
+        }
+
+        this.widthPx.value = this.originalDimensions.width;
+        this.heightPx.value = this.originalDimensions.height;
+        this.aspectRatio = this.originalDimensions.width / this.originalDimensions.height;
+        this.updateCmValues();
+        this.triggerResize();
+    }
+
+    applyAspectDimensions(width, height) {
+        if (!width || !height) {
+            return;
+        }
+
+        const roundedWidth = Math.round(width);
+        const roundedHeight = Math.round(height);
+        this.widthPx.value = roundedWidth;
+        this.heightPx.value = roundedHeight;
+        this.aspectRatio = roundedWidth / roundedHeight;
+        this.updateCmValues();
+        this.triggerResize();
+    }
 }

@@ -68,3 +68,62 @@
 
 /* Crop overlay */
 #crop-overlay { background: rgba(0,0,0,0.35); }
+
+/* Mode toggle + responsive states */
+body.mode-quick .advanced-only { display: none !important; }
+body.mode-advanced .quick-only { display: none !important; }
+
+.mode-toggle {
+  display: inline-flex;
+  padding: 4px;
+  border-radius: 9999px;
+  background: rgb(243 244 246);
+  gap: 4px;
+}
+.dark .mode-toggle { background: rgb(31 41 55); }
+
+.mode-toggle-btn {
+  border: none;
+  background: transparent;
+  color: rgb(107 114 128);
+  font-weight: 600;
+  padding: 0.35rem 1.25rem;
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+}
+.mode-toggle-btn.active {
+  background: linear-gradient(90deg, rgb(59 130 246), rgb(147 51 234));
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2);
+}
+.mode-toggle-btn:not(.active):hover { color: rgb(75 85 99); }
+.dark .mode-toggle-btn:not(.active):hover { color: rgb(229 231 235); }
+
+/* Preset buttons */
+.preset-btn,
+.trim-btn {
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  border-radius: 9999px;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: transparent;
+  color: inherit;
+  transition: all 0.2s ease;
+}
+.preset-btn:hover,
+.trim-btn:hover {
+  border-color: rgb(59 130 246);
+  color: rgb(59 130 246);
+}
+.preset-btn.active,
+.trim-btn.active {
+  background: linear-gradient(90deg, rgb(59 130 246), rgb(147 51 234));
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.25);
+}
+.dark .preset-btn,
+.dark .trim-btn {
+  border-color: rgba(229, 231, 235, 0.2);
+}

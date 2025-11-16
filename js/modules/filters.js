@@ -15,6 +15,17 @@ class FiltersManager {
         this.resetBtn = document.getElementById('reset-filters');
         this.previewCanvas = document.getElementById('preview-canvas');
         this.noPreview = document.getElementById('no-preview');
+        this.presetButtons = document.querySelectorAll('[data-preset]');
+        this.quickFilterSelect = document.getElementById('quick-filter');
+        this.activePreset = 'original';
+        this.presets = {
+            original: { brightness: 100, contrast: 100, saturate: 100, grayscale: 0, sepia: 0 },
+            vivid: { brightness: 105, contrast: 115, saturate: 130, grayscale: 0, sepia: 0 },
+            sunset: { brightness: 110, contrast: 105, saturate: 120, grayscale: 0, sepia: 15 },
+            retro: { brightness: 95, contrast: 90, saturate: 90, grayscale: 10, sepia: 25 },
+            mono: { brightness: 105, contrast: 120, saturate: 0, grayscale: 100, sepia: 0 },
+            soft: { brightness: 108, contrast: 95, saturate: 105, grayscale: 0, sepia: 5 }
+        };
         
         this.init();
     }
@@ -26,8 +37,9 @@ class FiltersManager {
             const valueDisplay = document.getElementById(`${filterName}-value`);
             
             filter.element.addEventListener('input', debounce(() => {
-                filter.value = filter.element.value;
+                filter.value = parseInt(filter.element.value, 10);
                 valueDisplay.textContent = `${filter.value}%`;
+                this.clearPresetSelection();
                 this.applyFilters();
             }, 50));
         });
@@ -38,27 +50,28 @@ class FiltersManager {
         // Listen for image and dimension changes
         document.addEventListener('imageLoaded', () => this.applyFilters());
         document.addEventListener('dimensionsChanged', () => this.applyFilters());
+        document.addEventListener('trimChanged', () => this.applyFilters());
+        document.addEventListener('modeChanged', (event) => {
+            if (event.detail.mode === 'quick') {
+                const fallback = this.presets[this.activePreset] ? this.activePreset : 'original';
+                this.applyPreset(fallback);
+            }
+        });
+
+        this.bindPresetControls();
+        this.bindQuickFilter();
+        this.updatePresetHighlight();
+        this.applyPreset('original');
     }
     
     resetFilters() {
-        this.filters.brightness.element.value = 100;
-        this.filters.contrast.element.value = 100;
-        this.filters.saturate.element.value = 100;
-        this.filters.grayscale.element.value = 0;
-        this.filters.sepia.element.value = 0;
-        
-        Object.keys(this.filters).forEach(filterName => {
-            this.filters[filterName].value = this.filters[filterName].element.value;
-            const valueDisplay = document.getElementById(`${filterName}-value`);
-            valueDisplay.textContent = `${this.filters[filterName].value}%`;
-        });
-        
-        this.applyFilters();
+        this.applyPreset('original');
     }
     
     applyFilters() {
         const uploadManager = window.uploadManager;
         const sizeCalculator = window.sizeCalculator;
+        const trimManager = window.trimManager;
         
         if (!uploadManager || !uploadManager.getOriginalImage()) {
             return;
@@ -73,7 +86,8 @@ class FiltersManager {
             originalImage,
             dimensions.width,
             dimensions.height,
-            this.getFilterValues()
+            this.getFilterValues(),
+            trimManager ? trimManager.getCropRect() : null
         );
         
         // Update preview
@@ -100,11 +114,78 @@ class FiltersManager {
     
     getFilterValues() {
         return {
-            brightness: this.filters.brightness.value,
-            contrast: this.filters.contrast.value,
-            saturate: this.filters.saturate.value,
-            grayscale: this.filters.grayscale.value,
-            sepia: this.filters.sepia.value
+            brightness: Number(this.filters.brightness.value),
+            contrast: Number(this.filters.contrast.value),
+            saturate: Number(this.filters.saturate.value),
+            grayscale: Number(this.filters.grayscale.value),
+            sepia: Number(this.filters.sepia.value)
         };
+    }
+
+    bindPresetControls() {
+        if (!this.presetButtons) {
+            return;
+        }
+
+        this.presetButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const preset = button.getAttribute('data-preset');
+                this.applyPreset(preset);
+            });
+        });
+    }
+
+    bindQuickFilter() {
+        if (!this.quickFilterSelect) {
+            return;
+        }
+
+        this.quickFilterSelect.addEventListener('change', (event) => {
+            const preset = event.target.value;
+            this.applyPreset(preset, { skipQuickSync: true });
+        });
+    }
+
+    applyPreset(presetName, options = {}) {
+        const preset = this.presets[presetName];
+        if (!preset) {
+            return;
+        }
+
+        Object.entries(preset).forEach(([key, value]) => {
+            if (!this.filters[key]) {
+                return;
+            }
+            this.filters[key].element.value = value;
+            this.filters[key].value = value;
+            const valueDisplay = document.getElementById(`${key}-value`);
+            if (valueDisplay) {
+                valueDisplay.textContent = `${value}%`;
+            }
+        });
+
+        this.activePreset = presetName;
+        this.updatePresetHighlight();
+
+        if (this.quickFilterSelect && !options.skipQuickSync) {
+            this.quickFilterSelect.value = presetName;
+        }
+
+        this.applyFilters();
+    }
+
+    clearPresetSelection() {
+        this.activePreset = null;
+        this.updatePresetHighlight();
+    }
+
+    updatePresetHighlight() {
+        if (!this.presetButtons) {
+            return;
+        }
+        this.presetButtons.forEach(button => {
+            const preset = button.getAttribute('data-preset');
+            button.classList.toggle('active', preset === this.activePreset);
+        });
     }
 }

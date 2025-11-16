@@ -109,8 +109,8 @@ function loadImageFromFile(file) {
     });
 }
 
-// Create canvas from image with filters
-function createCanvasFromImage(img, width, height, filters = {}) {
+// Create canvas from image with filters and optional crop rectangle
+function createCanvasFromImage(img, width, height, filters = {}, cropRect = null) {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     
@@ -139,7 +139,11 @@ function createCanvasFromImage(img, width, height, filters = {}) {
         ctx.filter = filterString;
     }
     
-    ctx.drawImage(img, 0, 0, width, height);
+    const sx = cropRect ? cropRect.sx : 0;
+    const sy = cropRect ? cropRect.sy : 0;
+    const sw = cropRect ? cropRect.sw : img.width;
+    const sh = cropRect ? cropRect.sh : img.height;
+    ctx.drawImage(img, sx, sy, sw, sh, 0, 0, width, height);
     return canvas;
 }
 
