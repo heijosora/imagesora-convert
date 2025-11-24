@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Sigma-Sora Convert - Quick Tools</title>
+  <title>Sora Convert - Tools</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/styles.css"/>
@@ -17,40 +17,58 @@
       darkMode: 'class',
       theme: {
         extend: {
-          fontFamily: { inter:['Inter','sans-serif'] },
+          fontFamily: { inter: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'] },
+          colors: {
+            'ios-blue': '#007AFF',
+            'ios-blue-dark': '#0A84FF',
+            'ios-gray': { 
+              50: '#f5f5f7', 
+              100: '#e8e8ed', 
+              200: '#d2d2d7',
+              300: '#aeaeb2',
+              400: '#8e8e93',
+              500: '#636366',
+              600: '#48484a',
+              700: '#3a3a3c',
+              800: '#2c2c2e',
+              900: '#1c1c1e'
+            }
+          },
           animation: { 'spin-slow':'spin 0.5s ease-in-out' }
         }
       }
     }
   </script>
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-inter transition-colors duration-300">
-  <header class="border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/50 backdrop-blur-sm sticky top-0 z-50">
-    <div class="container mx-auto px-4 py-4">
+<body class="bg-ios-gray-50 dark:bg-ios-gray-900 text-ios-gray-900 dark:text-ios-gray-50 font-inter transition-colors duration-300">
+  <header class="bg-white/80 dark:bg-ios-gray-900/80 backdrop-blur-xl border-b border-black/5 dark:border-white/5 sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3">
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-3">
-          <a href="index.html" class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <a href="index.html" class="w-9 h-9 bg-ios-blue dark:bg-ios-blue-dark rounded-xl flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
             </svg>
           </a>
-          <h1 class="text-2xl font-semibold">Quick Tools</h1>
+          <h1 class="text-lg font-semibold tracking-tight">Quick Tools</h1>
         </div>
 
-        <nav class="hidden sm:flex items-center gap-4 text-sm">
-          <a href="index.html" class="px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Core Converter</a>
-          <a href="batch.html" class="px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Batch Processor</a>
-          <a href="tools.html" class="px-3 py-1.5 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300">Quick Tools</a>
+        <nav class="hidden sm:flex items-center">
+          <div class="flex bg-ios-gray-100/80 dark:bg-ios-gray-800/80 rounded-lg p-0.5">
+            <a href="index.html" class="px-3 py-1.5 text-sm font-medium rounded-md text-ios-gray-500 dark:text-ios-gray-400 hover:text-ios-gray-700 dark:hover:text-ios-gray-200 transition-colors">Converter</a>
+            <a href="batch.html" class="px-3 py-1.5 text-sm font-medium rounded-md text-ios-gray-500 dark:text-ios-gray-400 hover:text-ios-gray-700 dark:hover:text-ios-gray-200 transition-colors">Batch</a>
+            <a href="tools.html" class="px-3 py-1.5 text-sm font-medium rounded-md bg-white dark:bg-ios-gray-700 text-ios-gray-900 dark:text-white shadow-sm">Tools</a>
+          </div>
         </nav>
 
-        <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
-          <svg id="sun-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        <button id="theme-toggle" class="w-9 h-9 flex items-center justify-center rounded-full hover:bg-ios-gray-100 dark:hover:bg-ios-gray-800 transition-colors">
+          <svg id="sun-icon" class="w-5 h-5 hidden text-ios-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                   d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
           </svg>
-          <svg id="moon-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          <svg id="moon-icon" class="w-5 h-5 text-ios-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                   d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </button>
@@ -58,104 +76,110 @@
     </div>
   </header>
 
-  <main class="container mx-auto px-4 py-6 max-w-6xl">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <section class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
-        <h2 class="text-lg font-semibold mb-4 flex items-center">
-          <svg class="w-5 h-5 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
+  <main class="container mx-auto px-4 py-5 max-w-6xl">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <section class="card-ios p-5">
+        <h2 class="section-title mb-4 flex items-center">
+          <span class="w-7 h-7 rounded-lg bg-ios-blue/10 dark:bg-ios-blue-dark/20 flex items-center justify-center mr-2.5">
+            <svg class="w-4 h-4 text-ios-blue dark:text-ios-blue-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </span>
           Crop
         </h2>
         <div class="space-y-3">
-          <input type="file" id="crop-input" accept="image/*" class="block w-full text-sm"/>
-          <div class="bg-gray-100 dark:bg-gray-900 rounded-lg p-3 min-h-[220px] flex items-center justify-center relative">
-            <canvas id="crop-canvas" class="max-w-full"></canvas>
-            <div id="crop-overlay" class="absolute inset-0 pointer-events-none hidden"></div>
+          <input type="file" id="crop-input" accept="image/*" class="block w-full text-sm text-ios-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-medium file:bg-ios-blue/10 file:text-ios-blue dark:file:bg-ios-blue-dark/20 dark:file:text-ios-blue-dark hover:file:bg-ios-blue/20"/>
+          <div class="bg-ios-gray-100 dark:bg-ios-gray-800 rounded-xl p-3 min-h-[200px] flex items-center justify-center relative">
+            <canvas id="crop-canvas" class="max-w-full rounded-lg"></canvas>
+            <div id="crop-overlay" class="absolute inset-0 pointer-events-none hidden rounded-lg"></div>
           </div>
           <div class="flex items-center gap-2">
-            <button id="crop-download" disabled class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:opacity-50">Download</button>
-            <button id="crop-reset" disabled class="px-3 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 disabled:opacity-50">Reset</button>
+            <button id="crop-download" disabled class="btn-success text-sm px-4 py-2">Download</button>
+            <button id="crop-reset" disabled class="btn-secondary text-sm px-3 py-2">Reset</button>
           </div>
         </div>
       </section>
 
-      <section class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
-        <h2 class="text-lg font-semibold mb-4 flex items-center">
-          <svg class="w-5 h-5 mr-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M19 11H5m7-7l-7 7 7 7"></path>
-          </svg>
+      <section class="card-ios p-5">
+        <h2 class="section-title mb-4 flex items-center">
+          <span class="w-7 h-7 rounded-lg bg-purple-500/10 dark:bg-purple-400/20 flex items-center justify-center mr-2.5">
+            <svg class="w-4 h-4 text-purple-500 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+            </svg>
+          </span>
           Rotate
         </h2>
         <div class="space-y-3">
-          <input type="file" id="rotate-input" accept="image/*" class="block w-full text-sm"/>
-          <div class="bg-gray-100 dark:bg-gray-900 rounded-lg p-3 min-h-[220px] flex items-center justify-center">
-            <canvas id="rotate-canvas" class="max-w-full"></canvas>
+          <input type="file" id="rotate-input" accept="image/*" class="block w-full text-sm text-ios-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-medium file:bg-purple-500/10 file:text-purple-500 dark:file:bg-purple-400/20 dark:file:text-purple-400 hover:file:bg-purple-500/20"/>
+          <div class="bg-ios-gray-100 dark:bg-ios-gray-800 rounded-xl p-3 min-h-[200px] flex items-center justify-center">
+            <canvas id="rotate-canvas" class="max-w-full rounded-lg"></canvas>
           </div>
           <div class="flex items-center gap-2">
-            <button id="rotate-ccw" disabled class="px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50">90° CCW</button>
-            <button id="rotate-cw" disabled class="px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50">90° CW</button>
-            <button id="rotate-download" disabled class="ml-auto px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:opacity-50">Download</button>
+            <button id="rotate-ccw" disabled class="btn-primary text-sm px-3 py-2">90° CCW</button>
+            <button id="rotate-cw" disabled class="btn-primary text-sm px-3 py-2">90° CW</button>
+            <button id="rotate-download" disabled class="btn-success text-sm px-4 py-2 ml-auto">Download</button>
           </div>
         </div>
       </section>
 
-      <section class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
-        <h2 class="text-lg font-semibold mb-4 flex items-center">
-          <svg class="w-5 h-5 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M3 5h12M9 3v2m-6 4h12m-6-2v2m-6 4h12m-6-2v2"></path>
-          </svg>
+      <section class="card-ios p-5">
+        <h2 class="section-title mb-4 flex items-center">
+          <span class="w-7 h-7 rounded-lg bg-orange-500/10 dark:bg-orange-400/20 flex items-center justify-center mr-2.5">
+            <svg class="w-4 h-4 text-orange-500 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+            </svg>
+          </span>
           Watermark
         </h2>
         <div class="space-y-3">
-          <input type="file" id="wm-input" accept="image/*" class="block w-full text-sm"/>
-          <div class="bg-gray-100 dark:bg-gray-900 rounded-lg p-3 min-h-[220px] flex items-center justify-center relative">
-            <canvas id="wm-canvas" class="max-w-full"></canvas>
+          <input type="file" id="wm-input" accept="image/*" class="block w-full text-sm text-ios-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-medium file:bg-orange-500/10 file:text-orange-500 dark:file:bg-orange-400/20 dark:file:text-orange-400 hover:file:bg-orange-500/20"/>
+          <div class="bg-ios-gray-100 dark:bg-ios-gray-800 rounded-xl p-3 min-h-[200px] flex items-center justify-center relative">
+            <canvas id="wm-canvas" class="max-w-full rounded-lg"></canvas>
           </div>
 
           <div class="grid grid-cols-2 gap-3">
             <div class="col-span-2 flex gap-4">
-              <label class="inline-flex items-center gap-2 text-sm">
-                <input type="radio" name="wm-mode" value="text" checked/>
+              <label class="inline-flex items-center gap-2 text-sm cursor-pointer">
+                <input type="radio" name="wm-mode" value="text" checked class="w-4 h-4 text-ios-blue"/>
                 Text
               </label>
-              <label class="inline-flex items-center gap-2 text-sm">
-                <input type="radio" name="wm-mode" value="logo"/>
+              <label class="inline-flex items-center gap-2 text-sm cursor-pointer">
+                <input type="radio" name="wm-mode" value="logo" class="w-4 h-4 text-ios-blue"/>
                 Logo
               </label>
             </div>
 
             <div id="wm-text-controls" class="col-span-2 grid grid-cols-2 gap-3">
-              <input type="text" id="wm-text" class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900" placeholder="Watermark text"/>
-              <input type="color" id="wm-color" value="#ffffff" class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"/>
+              <input type="text" id="wm-text" class="input-ios" placeholder="Watermark text"/>
+              <input type="color" id="wm-color" value="#ffffff" class="input-ios h-10 p-1"/>
               <div>
-                <label class="text-xs text-gray-500">Font Size</label>
+                <label class="text-xs text-ios-gray-400 mb-1 block">Font Size</label>
                 <input type="range" id="wm-font-size" min="10" max="150" value="32" class="w-full slider"/>
               </div>
               <div>
-                <label class="text-xs text-gray-500">Opacity</label>
+                <label class="text-xs text-ios-gray-400 mb-1 block">Opacity</label>
                 <input type="range" id="wm-opacity" min="10" max="100" value="70" class="w-full slider"/>
               </div>
             </div>
 
             <div id="wm-logo-controls" class="col-span-2 grid grid-cols-2 gap-3 hidden">
-              <input type="file" id="wm-logo-input" accept="image/*" class="col-span-2 text-sm"/>
+              <input type="file" id="wm-logo-input" accept="image/*" class="col-span-2 text-sm text-ios-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-medium file:bg-ios-gray-100 file:text-ios-gray-600 dark:file:bg-ios-gray-800 dark:file:text-ios-gray-300"/>
               <div>
-                <label class="text-xs text-gray-500">Scale</label>
+                <label class="text-xs text-ios-gray-400 mb-1 block">Scale</label>
                 <input type="range" id="wm-logo-scale" min="10" max="200" value="50" class="w-full slider"/>
               </div>
               <div>
-                <label class="text-xs text-gray-500">Opacity</label>
+                <label class="text-xs text-ios-gray-400 mb-1 block">Opacity</label>
                 <input type="range" id="wm-logo-opacity" min="10" max="100" value="70" class="w-full slider"/>
               </div>
             </div>
 
             <div class="col-span-2">
-              <label class="text-xs text-gray-500">Position</label>
-              <select id="wm-position" class="w-full mt-1 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900">
+              <label class="text-xs text-ios-gray-400 mb-1 block">Position</label>
+              <select id="wm-position" class="select-ios w-full">
                 <option value="drag">Drag on canvas</option>
                 <option value="top-left">Top Left</option>
                 <option value="top-right">Top Right</option>
@@ -167,8 +191,8 @@
           </div>
 
           <div class="flex items-center gap-2">
-            <button id="wm-download" disabled class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:opacity-50">Download</button>
-            <button id="wm-reset" disabled class="px-3 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 disabled:opacity-50">Reset</button>
+            <button id="wm-download" disabled class="btn-success text-sm px-4 py-2">Download</button>
+            <button id="wm-reset" disabled class="btn-secondary text-sm px-3 py-2">Reset</button>
           </div>
         </div>
       </section>
